@@ -27,7 +27,10 @@ def load_and_clean_data(file_name):
     return cleaned_company_names, unique_company_names_list
 
 def calculate_fuzzy_similarity(name1, name2):
-    return fuzz.token_sort_ratio(name1, name2)
+    m1 = fuzz.token_sort_ratio(name1, name2) + 1e-9
+    m2 = fuzz.partial_ratio(name1, name2) + 1e-9
+    harmonic_mean = 2 * m1 * m2 / (m1 + m2)
+    return harmonic_mean
 
 def calculate_jaccard_similarity(name1, name2):
     set1 = set(name1.split())
@@ -41,6 +44,10 @@ def calculate_jaccard_similarity(name1, name2):
     return jaccard_similarity
 
 def find_index_pairs(company_names, jaccard_threshold, fuzzy_threshold):
+    if not (0 <= jaccard_threshold <= 1):
+        raise ValueError("jaccard_threshold must be between 0 and 1")
+    if not (0 <= fuzzy_threshold <= 100):
+        raise ValueError("fuzzy_threshold must be between 0 and 100")
     related_indices = []
     for i in range(len(company_names)):
         for j in range(i+1, len(company_names)): # i+1 ensures calculations only performed once per pair
@@ -70,15 +77,19 @@ def main():
         print(f"Error: {e}")
         return 0
 
-    # Calculate Jaccard similarity metric for all pairs, only calculate fuzzy ratio if pair exceeds low jaccard threshold
+    # Calculate Jaccard similarity metric for all pairs, only calculate fuzzy ratio if pair exceeds a low jaccard threshold
     jaccard_threshold = 0.1  
-    fuzzy_threshold = 80  
-    index_pairs = find_index_pairs(cleaned_names, jaccard_threshold, fuzzy_threshold)
+    fuzzy_threshold = 70
+    try:
+        index_pairs = find_index_pairs(cleaned_names, jaccard_threshold, fuzzy_threshold)
+    except Exception as e:
+        print(f"Error: {e}")
+        return 0
 
     # Produce final list of pairs
     related_pairs = extract_related_pairs(index_pairs, unique_original_names)
+    print(len(related_pairs))
     print(related_pairs[:20])
-
 
 if __name__ == "__main__":
     main()
