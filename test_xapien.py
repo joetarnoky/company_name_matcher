@@ -27,12 +27,13 @@ class TestLoadAndCleanData(unittest.TestCase):
 class TestCalculateFuzzySimilarity(unittest.TestCase):
     def test_calculate_fuzzy_similarity(self):
         self.assertLess(calculate_fuzzy_similarity("caprice", "olswang"), 70)
-        self.assertGreater(calculate_fuzzy_similarity("olswang cosec", "olswang directors"), 70)
+        self.assertGreater(calculate_fuzzy_similarity("olswang cosec", "olswang directors 2"), 70)
 
 class TestCalculateJaccardSimilarity(unittest.TestCase):
     def test_calculate_jaccard_similarity(self):
         self.assertEqual(calculate_jaccard_similarity("caprice", "caprice"), 1)
         self.assertEqual(calculate_jaccard_similarity("caprice", "olswang"), 0)
+        self.assertGreater(calculate_jaccard_similarity("olswang cosec", "olswang directors 2"), 0.2)
         self.assertEqual(calculate_jaccard_similarity("", ""), 0)
 
 class TestFindIndexPairs(unittest.TestCase):
