@@ -38,7 +38,7 @@ class TestCalculateJaccardSimilarity(unittest.TestCase):
 class TestFindIndexPairs(unittest.TestCase):
     def test_find_index_pairs(self):
         company_names = ["caprice", "nashville", "olswang", "caprice", "nashville", ""]
-        jaccard_threshold = 0.1  
+        jaccard_threshold = 0.2 
         fuzzy_threshold = 70  
         index_pairs = find_index_pairs(company_names, jaccard_threshold, fuzzy_threshold)
         self.assertEqual(index_pairs, [(0, 3), (1, 4)])
