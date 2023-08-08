@@ -78,7 +78,7 @@ def main():
         return 0
 
     # Calculate Jaccard similarity metric for all pairs, only calculate fuzzy ratio if pair exceeds a low jaccard threshold
-    jaccard_threshold = 0.1  
+    jaccard_threshold = 0.2
     fuzzy_threshold = 70
     try:
         index_pairs = find_index_pairs(cleaned_names, jaccard_threshold, fuzzy_threshold)
