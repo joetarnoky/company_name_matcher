@@ -1,5 +1,5 @@
 # company_name_matcher
-Produces a list of pairs of related companies given a list of company names
+Produces a list of pairs of related companies given a list of company names using a combination of fuzzy methods.
 
 Dependencies:
 pip install python-Levenshtein
